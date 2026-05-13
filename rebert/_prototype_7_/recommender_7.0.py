@@ -6,7 +6,7 @@
 #   CREATION DATE: February, 2025
 #   Author: David W. McDonald
 #
-import os, sys, time, datetime, webbrowser
+import os, sys, time, datetime, webbrowser, shlex
 #
 from rebert.classes.utilities.Args import Args
 from rebert._prototype_7_.web.config import *
@@ -123,13 +123,15 @@ def main():
         p.usage(sys.argv)
         return
     #
+    #   Use same interpreter as this script so `flask` works from venv (`python -m flask`)
+    _py = shlex.quote(sys.executable)
     if p['mockup']:
         #   Launch the server with the current mockup
-        launch_command = f"flask --app {MOCKUP_APP} run --port {p['port']}"
+        launch_command = f"{_py} -m flask --app {MOCKUP_APP} run --port {p['port']}"
         print(f"Launching mockup app: '{MOCKUP_APP}'")
     else:
         #   Get ready to launch the server and point a browser at it
-        launch_command = f"flask --app {p['app']} run --port {p['port']}"
+        launch_command = f"{_py} -m flask --app {p['app']} run --port {p['port']}"
     #
     #   Launch the server, either with the mockup or the full app
     server_output_pipe = os.popen(launch_command)
