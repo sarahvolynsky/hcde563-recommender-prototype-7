@@ -69,7 +69,7 @@ source ~/.zshenv
 
 Then open **http://127.0.0.1:5000/** if the browser does not open automatically.
 
-From the **cloned repository root**, you can run **`../run.sh`** (parent) or the repository’s top-level **`run.sh`**, which **`cd`**s into **`rebert/_prototype_7_`**.
+From **this cloned repository’s root**, use the top-level **`run.sh`** (it **`cd`**s into **`rebert/_prototype_7_`** first).
 
 ---
 
