@@ -490,6 +490,88 @@ def create_rating_qna_str(session=None):
     qna_str = qna_str+"\n"
     return qna_str
 
+
+def _rating_movie_context_for_prompt(session_state):
+    """Build a short context block from in_progress candidates for Explore 7.1 prompts."""
+    try:
+        ip = session_state['rating']['in_progress']
+    except (KeyError, TypeError):
+        return "(No active rating in session.)"
+    candidates = ip.get('candidates') or []
+    matched = ip.get('matched', -1)
+
+    def fmt_movie(rec):
+        if not rec:
+            return ""
+        title = rec.get('title') or ''
+        year = rec.get('year') or ''
+        genres = rec.get('genre') or []
+        if isinstance(genres, list):
+            g = ', '.join(str(x) for x in genres)
+        else:
+            g = str(genres)
+        syn = (rec.get('synopsis') or '').strip()
+        if len(syn) > 900:
+            syn = syn[:900] + '…'
+        return f"Title: {title}\nYear: {year}\nGenres: {g}\nSynopsis: {syn}"
+
+    if matched is not None and matched >= 0 and matched < len(candidates):
+        return "User working title (matched candidate):\n" + fmt_movie(candidates[matched])
+    if candidates:
+        return "Best-guess candidates from TMDB (not yet confirmed); prefer the first as working context:\n" + fmt_movie(
+            candidates[0]
+        )
+    if ip.get('title'):
+        return f"Working title from session: {ip.get('title')}\n(No full TMDB record yet.)"
+    return "Movie not yet linked to TMDB metadata. Use only the user's answers to infer which film they mean and ask about that film."
+
+
+def rating_followup_question_request(session_state=None, qna_str="", chat_key=""):
+    """
+    Explore 7.1: Next follow-up for Prototype 7 rating — one specific film, deeper
+    questions (replaces qna_question_request for serve_rating flow only).
+    """
+    if not qna_str:
+        print_server_log(
+            "Missing Q&A string!",
+            "rating_followup_question_request()",
+            MODULE_LLM_DEBUG,
+        )
+        raise Exception("Missing Q&A string!")
+
+    movie_context = _rating_movie_context_for_prompt(session_state or {})
+    sprompt = RATING_FOLLOWUP_SYSTEM_PROMPT.format(
+        movie_context=movie_context,
+        prior_qna=qna_str,
+    )
+
+    chat_context = ChatRequestPayload()
+    system_turn = ChatMessage()
+    system_turn.setRole("system")
+    system_turn.setContent(sprompt)
+    chat_context.addMessage(system_turn)
+
+    user_turn = ChatMessage()
+    user_turn.setRole("user")
+    user_turn.setContent(RATING_FOLLOWUP_USER_PROMPT)
+    chat_context.addMessage(user_turn)
+
+    chat_api = Chat()
+    chat_api.setBearerToken(chat_key)
+    chat_context = configure_model_params(chat_context)
+    chat_api.setRequestPayload(chat_context.json(clean=True))
+    chat_api.queueRequest()
+    chat_api.makeRequest()
+    response = chat_api.nextResponse()
+    resp_dict = response.json()
+
+    assistant_turn = ChatMessage()
+    message = resp_dict['choices'][0]['message']
+    assistant_turn.setRole("assistant")
+    assistant_turn.setMessage(message)
+    return assistant_turn
+
+
 #
 #   The idea here is to use the LLM to extract the potential titles
 #   from the user text

@@ -146,6 +146,31 @@ All the responses you give should be in the form of a question. All responses sh
 EPHEM_QUESTION_PROMPT = "What is a question you would ask the user to improve the possibility of making a recommendation? Phrase your question in a way that encourages the user to say more than just 'yes' or 'no'. Phrase your question to encourage the user to describe features or explain their preferences."
 
 #
+#   Prototype 7 — single-movie rating follow-ups (Explore 7.1)
+#   Replaces generic mini-interview style; questions target ONE film and deepen preference signal.
+#
+RATING_FOLLOWUP_SYSTEM_PROMPT = '''You help users rate one specific movie they are discussing in Rebert.
+
+MOVIE CONTEXT (may be partial if identification is still in progress):
+{movie_context}
+
+CONVERSATION SO FAR (QUESTION / ANSWER pairs about this rating):
+{prior_qna}
+
+Your task: produce exactly ONE follow-up question.
+
+Rules:
+- The question must refer to the same film the user is rating (use the MOVIE CONTEXT when it names a title; otherwise infer the film from the conversation and still ask about that story/world, not a different movie).
+- Ask about concrete aspects of THAT movie: story, characters, performances, scenes, tone, music, pacing, themes, what surprised them, what disappointed them, emotional impact, or whether they would rewatch it.
+- Do NOT ask generic "what kinds of movies do you like" questions that ignore the specific title.
+- Do NOT repeat a topic that is already clearly answered in the conversation; move to a new angle.
+- Output a single English question only, with no preamble or bullet list.
+
+If the movie is still ambiguous, ask one clarifying question that still deepens substance (e.g. a detail only someone who saw it would know), not just "which movie?".'''
+
+RATING_FOLLOWUP_USER_PROMPT = '''What is the single best next question to ask this user about the movie they are rating? Remember: one question only.'''
+
+#
 #   System prompt asks the LLM to use information to recommend movies based on the
 #   user's responses to the questions
 #

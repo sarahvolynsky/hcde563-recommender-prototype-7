@@ -245,7 +245,7 @@ def serve_rating_next(request, server_state):
     if ((answer_count <= REBERT_MINIMUM_RATING_QNA) and
         (answer_length <= REBERT_MINIMUM_RATING_WORDS) ):
         qna_str = create_rating_qna_str(session_state)
-        chat_turn = qna_question_request(None,qna_str,server_state['OPENAI_KEY'])
+        chat_turn = rating_followup_question_request(session_state, qna_str, server_state['OPENAI_KEY'])
         ui_state['new_question'] = chat_turn['content']
         print_server_log(f"New question: {ui_state['new_question']}",
                           "serve_rating_next()",
