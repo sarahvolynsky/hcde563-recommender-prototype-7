@@ -206,18 +206,29 @@
     </div>
   </div>  
 
+  <!-- Explore 7.2: prior Q&A collapsed — current question + answer area read like a mini-interview -->
+  <div class="row border-0 bg-light mb-1">
+    <div class="col-md-12 border-0">
+      <p class="text-secondary small mb-0">Step {{ session.rating.in_progress.qna|length + 1 }} of 3 — focus on the question below; open “Earlier answers” if you need to review.</p>
+    </div>
+  </div>
+{% if session.rating.in_progress.qna %}
+  <details class="mb-3 border rounded p-2 bg-white">
+    <summary class="text-muted" style="cursor:pointer">Earlier answers ({{ session.rating.in_progress.qna|length }} saved)</summary>
 {% for item in session.rating.in_progress.qna %}
-  <div class="row border-0 bg-light" id="nested_qna_row">
-    <div class="col-md-12 border-0" id="nested_column_1-12">  
-      <div class="container-fluid">
-        <div class="mb-3 mt-0">
-          <p class="fs-5"name="rate_question_{{loop.index}}">{{item.question}}</p>
-          <textarea class="form-control" name="rate_answer_{{loop.index}}" style="min-height: 90px" disabled >{{item.answer}}</textarea>
+    <div class="row border-0 bg-light mt-2" id="nested_qna_row">
+      <div class="col-md-12 border-0" id="nested_column_1-12">  
+        <div class="container-fluid">
+          <div class="mb-3 mt-0">
+            <p class="fs-6 text-muted" name="rate_question_{{loop.index}}">{{item.question}}</p>
+            <textarea class="form-control" name="rate_answer_{{loop.index}}" style="min-height: 90px" disabled >{{item.answer}}</textarea>
+          </div>
         </div>
       </div>
-    </div>
-  </div> <!-- end:nested_qna_row -->
+    </div> <!-- end:nested_qna_row -->
 {% endfor %}
+  </details>
+{% endif %}
 
   <!-- TRANSCRIPTION + TEXT INPUT AREA -->
   <div class="row border-0 bg-light" id="nested_row_1">

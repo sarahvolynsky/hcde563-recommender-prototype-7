@@ -15,6 +15,9 @@
 #
 ##
 #
+#   GenAI disclosure (syllabus): Cursor added rating_followup_question_request and
+#   _rating_movie_context_for_prompt for Explore 7.1.
+#
 import sys, os, datetime, time, hashlib, json, copy
 #
 from rebert._prototype_7_.web.config import *

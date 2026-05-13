@@ -15,6 +15,8 @@
 #
 #######
 #
+#   GenAI disclosure (syllabus): Cursor added RATING_FOLLOWUP_* prompts (Explore 7.1).
+#
 #   This is a modified prompt. In addition to injecting recent movie release 
 #   info we provide a movie synopis, and instruct the LLM to only say things
 #   that it knows are factual - things that it has been told. The goal is

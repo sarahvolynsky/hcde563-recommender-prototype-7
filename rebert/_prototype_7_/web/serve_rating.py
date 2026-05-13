@@ -15,6 +15,12 @@
 #
 ##
 #
+#   ---------------------------------------------------------------------------
+#   GenAI disclosure (course syllabus): Cursor assisted — Explore 7.1/7.2 in
+#   this module: rating_followup_question_request instead of generic
+#   qna_question_request; rating UI pattern documented in rate_movies.html.
+#   ---------------------------------------------------------------------------
+#
 import sys, os, datetime, random, hashlib, json, copy
 
 from flask import render_template

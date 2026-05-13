@@ -73,6 +73,12 @@ From **this cloned repository’s root**, use the top-level **`run.sh`** (it **`
 
 ---
 
+## Course exercise (Chapter 7)
+
+Implemented **Explore 7.1** (movie-specific LLM follow-up questions via **`rating_followup_question_request`**) and **Explore 7.2** (mini-interview-style UI: collapsed “Earlier answers” on **`rate_movies.html`**). Details and submission wording are in the **repository root `README.md`**.
+
+---
+
 ## Notes
 
 - First-time startup may **collect release data** (network + scraping + TMDB); if no movies match the configured window, startup logs **Found no 'recent' movie openings** and exits — adjust **`web/config.py`** (`REBERT_WINDOW_*`) if needed.
