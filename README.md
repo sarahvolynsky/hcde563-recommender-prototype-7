@@ -42,7 +42,7 @@ Code imports **`rebert._prototype_7_.web.*`**, so **`rebert/_prototype_7_/`** mu
 
 ## 4. Use of GenAI (**Cursor / Composer**)
 
-Used for repository layout, symlink documentation, **`run.sh`**, Flask launcher fix, **Explore 7.1** (prompt + LLM routing), **Explore 7.2** (template tweak), syllabus **GenAI disclosure** blocks in **`serve_rating.py`**, **`prompts.py`**, **`llm.py`**, and README drafting. Course-author headers preserved where supplied.
+Used for repository layout, symlink documentation, **`run.sh`**, Flask launcher fix, **Explore 7.1** (prompt + LLM routing), **Explore 7.2** (template tweak),  and README drafting. 
 
 ---
 
@@ -104,11 +104,4 @@ chmod +x run.sh && ./run.sh
 - **7.1:** Server logs show follow-up questions after **`rating_followup_question_request`**; prompts reference matched movie synopsis when TMDB candidate exists.
 - **7.2:** **Rate Movies** UI shows step line + **Earlier answers** disclosure; dictation/synopsis dropdown behavior unchanged.
 
----
 
-## 10. Submission
-
-Submit this repository’s URL on **Canvas** and grant access:
-
-- dwmc@uw.edu  
-- hjbyeon@uw.edu  
